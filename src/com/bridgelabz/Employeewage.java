@@ -8,15 +8,24 @@ public class Employeewage {
 		int EMP_RATE_PER_HOUR = 20;
 		int empHrs = 0;
 		int empwage = 0;
-		double attendance = Math.round(Math.random() * 10) % 3;
-		if (attendance == IS_FULL_TIME) 
-		    empHrs = 8;
-		 else if (attendance == IS_PART_TIME)
-			empHrs = 4;
-			else
-			empHrs=0;
-		
-		empwage = empHrs * EMP_RATE_PER_HOUR;
-		System.out.println("Emp Wage: "+empwage);
+		int attendance = (int) Math.round(Math.random() * 10) % 3;
+		switch (attendance) {
+		case 0:
+		         System.out.println("Employee is absent");
+		         System.out.println();
+		         break;
+		case 1:
+		         System.out.println("Employee is present");
+		         System.out.println();
+		         empHrs = 8;
+		         break;
+		case 2:
+		         System.out.println("Employee is present for Part time");
+		         System.out.println();
+		         empHrs = 4;
+		         break;
+		}
+		empwage = EMP_RATE_PER_HOUR * empHrs;
+		System.out.println("Employee's salary for the day is " + empwage);
 	}
 }
