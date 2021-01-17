@@ -1,50 +1,39 @@
 package com.bridgelabz;
 
 public class Employeewage {
-	final	int IS_FULL_TIME = 1;
-	final int IS_PART_TIME = 2;
-	final int EMP_RATE_PER_HOUR = 20;
-	final int NUM_WORKING_DAYS = 20;
-	final int MAX_WORKING_HOURS = 100;
+	public static final int IS_FULL_TIME = 1;
+	public static final int IS_PART_TIME = 2;
 
-//variables
-	int empHrs = 0;
-	int empWage = 0;
-	int totalEmpWage = 0;
-	int totalEmpWorkingHrs = 0;
-	int totalEmpWorkingDays = 0;
-	
-public void calculateEmpWage()
-{
-	while ( totalEmpWorkingDays <= NUM_WORKING_DAYS && totalEmpWorkingHrs < MAX_WORKING_HOURS )
-{	int empCheck = (int)(Math.random() * 10) % 3;
+	public static int employeeWages(String comname, int empRatePerHour, int numOfWorkingDays, int maxHoursInMonth) {
+		int empHrs = 0;
+		int totalEmpHrs = 0;
+		int totalWorkingDays = 0;
 
-	switch ( empCheck ){
-		case IS_FULL_TIME:
-			empHrs=8;
-			totalEmpWorkingDays++;
-			break;
-		case IS_PART_TIME:
-			empHrs = 4;
-			totalEmpWorkingDays++;
-			break;
-		default:
-			empHrs=0;
-}
-	totalEmpWorkingHrs += empHrs;
-	empWage = empHrs * EMP_RATE_PER_HOUR;
-	totalEmpWage += empWage;
-	System.out.println("Emp wage: " + empWage );
+		while (totalEmpHrs < maxHoursInMonth && totalWorkingDays < numOfWorkingDays) {
+			totalWorkingDays++;
+			int empCheck = (int) (Math.floor(Math.random() * 10) % 3);
+			switch (empCheck) {
+			case IS_FULL_TIME:
+				empHrs = 8;
+				break;
+			case IS_PART_TIME:
+				empHrs = 4;
+				break;
+			default:
+				empHrs = 0;
+				break;
+			}
+			totalEmpHrs += empHrs;
+			System.out.println("Days : " + totalWorkingDays + "\tEmp hours : " + empHrs);
+		}
+		int totalSalary = empRatePerHour * totalEmpHrs;
+		System.out.println("Total Salary for : " + comname + " is : " + totalSalary);
+		return totalSalary;
+	}
 
-}
-	System.out.println("Total number of working days: "+ totalEmpWorkingDays +" Total number of Working Hours: " + totalEmpWorkingHrs + " Total Wage: " + totalEmpWage );
-
-}	
-	public static void main(String[] args)
-{
-	Employeewage EmpWage = new Employeewage();
-	EmpWage.calculateEmpWage(); //Computation
-	
+	public static void main(String[] args) {
+		employeeWages("Tech Mahindra", 15, 20, 100);
+		employeeWages("Infosys", 20, 15, 80);
+	}
 }
 
-}
