@@ -1,87 +1,82 @@
 package com.bridgelabz;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
-public class Employeewage implements IComputeEmpWage  {
+public class Employeewage {
 	public static final int IS_FULL_TIME=1;
 	public static final int IS_PART_TIME=2;
-
-	private int numofCompany=0;
-	private CompanyEmpWage[] companyEmpWageArray;
-
-	public Employeewage() {
-		companyEmpWageArray=new CompanyEmpWage[5];
-	}
-	public void addCompanyEmpWage(String company,int empRatePerHour,int workingDays,int maxHours) {
-		companyEmpWageArray[numofCompany]=new CompanyEmpWage(company,empRatePerHour,workingDays,maxHours);
-		numofCompany++;
-	}
-
-
-	public void computeEmpWage(){
-		for (int i=0;i<numofCompany;i++){
-		companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWages(companyEmpWageArray[i]));
-		System.out.println(companyEmpWageArray[i]);
-			}
+	private final String company;
+	private final int RATE_PER_HOUR;
+	private final int workingDays;
+	private final int maxHours;
+	private int totalEmpWages; 
+	
+	public Employeewage(String company,int RATE_PER_HOUR,int workingDays,int maxHours) {
+		this.company=company;
+		this.RATE_PER_HOUR=RATE_PER_HOUR;
+		this.workingDays=workingDays;
+		this.maxHours=maxHours;
 		}
-		private int computeEmpWages(CompanyEmpWage companyEmpWage) {
-				int emphrs = 0, totalworkingdays = 0, totalEmphrs = 0;
-				while (totalEmphrs < companyEmpWage.maxHours && totalworkingdays < companyEmpWage.workingDays) 
-				{
-					totalworkingdays++;
-					int random = (int) Math.floor(Math.random() * 10) % 3;
-					switch (random) {
-
-					case 1:
-						emphrs = 8;
-						break;
-
-					case 2:
-						emphrs = 4;
-						break;
-
-					default:
-						emphrs = 0;// not present
-
-					}
-					totalEmphrs += emphrs;
-					System.out.println("days" +totalworkingdays+ "Emphrs" +emphrs);
-				}
-				return totalEmphrs+companyEmpWage.empRateperHour;
-				
-		}
-	public static void main(String[] args) {
-	// TODO Auto-generated method stub
-	IComputeEmpWage empWageBuilder = new Employeewage();
-	empWageBuilder.addCompanyEmpWage("facebook",20,2,10);
-	empWageBuilder.addCompanyEmpWage("apple",10,4,20);
-	empWageBuilder.computeEmpWage();
-	}
-	}
-	class CompanyEmpWage {
-		public final String company;
-		public final int empRateperHour;
-		public final int workingDays;
-		public final int maxHours;
-		public int totalEmpWage;
+	public void Calculation() {
+		int empHours=0,totalEmpHours=0,totalWorkingDays=0;
 		
-		public CompanyEmpWage(String company,int empRatePerHour,int workingDays,int maxHours) {
-			this.company=company;
-			this.empRateperHour=empRatePerHour;
-			this.workingDays=workingDays;
-			this.maxHours=maxHours;
+		while(totalEmpHours<=maxHours && totalWorkingDays<workingDays) {
+			totalWorkingDays++;
+			int check=(int) (Math.floor(Math.random()*10)%3);
+			switch(check) {
+			 case IS_FULL_TIME : empHours=8;
+			 					 break;
+			 case IS_PART_TIME : empHours=4;
+			 					 break;
+			 default : empHours=0;
+			}
+			totalEmpHours+=empHours;
+			//System.out.println("Day :"+totalWorkingDays+"Emp Hours :"+empHours);
+			
 		}
-		public void setTotalEmpWage(int totalEmpWage) {
-			this.totalEmpWage=totalEmpWage;
-		}
-		@Override
-		public String toString() {
-			return "Total Emp Wage for Company :"+company+"is :"+totalEmpWage;
-		}
-
+		//System.out.println("Total Employee work Hours :"+totalEmpHours);
+		totalEmpWages=totalEmpHours*RATE_PER_HOUR;
 	}
-	interface IComputeEmpWage {
-		public void addCompanyEmpWage(String company,int empRateperHour,int workingDays,int maxHours);
-		public void computeEmpWage();
-		}
+	
+	@Override
+	public String toString() {
+		return "Total Emp Wage for Company :"+company+"is:"+totalEmpWages;
+	}
+	public static void main(String[] args) {
+		System.out.println("========Welcome to Employee Wage Computation========");
+		Employeewage fab=new Employeewage("Facebook",20,200,100);
+		Employeewage app=new Employeewage("Apple",35,100,100);
+		fab.Calculation();
+		System.out.println(fab);
+		app.Calculation();
+		System.out.println(app);
+	 }
+}
+class CompanyEmpWage {
+	public final String company;
+	public final int empRateperHour;
+	public final int workingDays;
+	public final int maxHours;
+	public int totalEmpWage;
+	
+	public CompanyEmpWage(String company,int empRatePerHour,int workingDays,int maxHours) {
+		this.company=company;
+		this.empRateperHour=empRatePerHour;
+		this.workingDays=workingDays;
+		this.maxHours=maxHours;
+	}
+	public void setTotalEmpWage(int totalEmpWage) {
+		this.totalEmpWage=totalEmpWage;
+	}
+	@Override
+	public String toString() {
+		return "Total Emp Wage for Company "+company+" is :"+totalEmpWage;
+	}
+
+}
+interface IComputeEmpWage {
+	public void addCompanyEmpWage(String company,int empRateperHour,int workingDays,int maxHours);
+	public void computeEmpWage();
+	}
